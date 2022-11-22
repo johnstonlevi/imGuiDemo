@@ -7,11 +7,14 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include <string>
 #define GL_SILENCE_DEPRECATION
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -20,19 +23,23 @@
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
+// Function Prototypes
+bool LoadTextureFromFile(const char*, GLuint*, int*, int*);
+
 static void glfw_error_callback(int error, const char* description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
 static float fontSize = 36.0;
-static float oldFontSize;
+
 
 int main(int, char**)
 {
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
 
+     
 
     
     if (!glfwInit())
@@ -104,7 +111,6 @@ int main(int, char**)
     // Our state
     bool show_demo_window = false;
     bool show_another_window = false;
-    bool show_my_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     ubuntu = io.Fonts->AddFontFromFileTTF("../fonts/ubuntu/UbuntuMono-R.ttf", fontSize);
 
@@ -160,29 +166,80 @@ int main(int, char**)
         // 3. Show another simple window.
         if (show_another_window)
         {
-            
+            int i = 0;
 
             ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             
-            ImGui::Text("1");
-            ImGui::SameLine(50, -1);
-            ImGui::Text("2");
-            ImGui::SameLine(100, -1);
-            ImGui::Text("3");
-            ImGui::Text("4");
-            ImGui::SameLine(50, -1);
-            ImGui::Text("5");
-            ImGui::SameLine(100, -1);
-            ImGui::Text("6");
-            ImGui::Text("7");
-            ImGui::SameLine(50, -1);
-            ImGui::Text("8");
-            ImGui::SameLine(100, -1);
-            ImGui::Text("9");
-            ImGui::NewLine();
-            ImGui::SameLine(50, -1);
-            ImGui::Text("0");
+            
+            //ImGui::Image()
             // Convert these to images
+            glfwInit();
+
+            GLuint image_button[15];
+
+            int my_image_width = 0;
+            int my_image_height = 0;
+            bool ret[15];
+            
+            
+            ret[1] = LoadTextureFromFile("../images/button_1.png", &image_button[1], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[1], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[1]);
+            ImGui::SameLine(200, -1);
+            ret[2] = LoadTextureFromFile("../images/button_2.png", &image_button[2], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[2], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[2]);
+            ImGui::SameLine(400, -1);
+            ret[3] = LoadTextureFromFile("../images/button_3.png", &image_button[3], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[3], ImVec2(my_image_width, my_image_height));
+            ImGui::SameLine(600, -1);
+            ret[10] = LoadTextureFromFile("../images/button_multiply.png", &image_button[10], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[10], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[10]);
+            ret[4] = LoadTextureFromFile("../images/button_4.png", &image_button[4], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[4], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[4]);
+            ImGui::SameLine(200, -1);
+            ret[5] = LoadTextureFromFile("../images/button_5.png", &image_button[5], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[5], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[5]);
+            ImGui::SameLine(400, -1);
+            ret[6] = LoadTextureFromFile("../images/button_6.png", &image_button[6], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[6], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[6]);
+            ImGui::SameLine(600, -1);
+            ret[11] = LoadTextureFromFile("../images/button_minus.png", &image_button[11], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[11], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[11]);
+            ret[7] = LoadTextureFromFile("../images/button_7.png", &image_button[7], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[7], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[7]);
+            ImGui::SameLine(200, -1);
+            ret[8] = LoadTextureFromFile("../images/button_8.png", &image_button[8], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[8], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[8]);
+            ImGui::SameLine(400, -1);
+            ret[9] = LoadTextureFromFile("../images/button_9.png", &image_button[9], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[9], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[9]);
+            ImGui::SameLine(600, -1);
+            ret[13] = LoadTextureFromFile("../images/button_plus.png", &image_button[13], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[13], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[13]);
+            ret[12] = LoadTextureFromFile("../images/button_divide.png", &image_button[12], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[12], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[12]);
+            ImGui::SameLine(200, -1);
+            ret[0] = LoadTextureFromFile("../images/button_0.png", &image_button[0], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[0], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[0]);
+            ImGui::SameLine(600, -1);
+            ret[14] = LoadTextureFromFile("../images/button_equals.png", &image_button[14], &my_image_width, &my_image_height);
+            ImGui::Image((void*)(intptr_t)image_button[14], ImVec2(my_image_width, my_image_height));
+            IM_ASSERT(ret[14]);
+            
+            
+
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
 
@@ -214,4 +271,39 @@ int main(int, char**)
     glfwTerminate();
 
     return 0;
+}
+
+// Simple helper function to load an image into a OpenGL texture with common settings
+bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height)
+{
+    // Load from file
+    int image_width = 0;
+    int image_height = 0;
+    unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
+    if (image_data == NULL)
+        return false;
+
+    // Create a OpenGL texture identifier
+    GLuint image_texture;
+    glGenTextures(1, &image_texture);
+    glBindTexture(GL_TEXTURE_2D, image_texture);
+
+    // Setup filtering parameters for display
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Same
+
+    // Upload pixels into texture
+#if defined(GL_UNPACK_ROW_LENGTH) && !defined(__EMSCRIPTEN__)
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+#endif
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+    stbi_image_free(image_data);
+
+    *out_texture = image_texture;
+    *out_width = image_width;
+    *out_height = image_height;
+
+    return true;
 }
