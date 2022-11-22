@@ -26,6 +26,7 @@ static void glfw_error_callback(int error, const char* description)
 }
 
 static float fontSize = 36.0;
+static float oldFontSize;
 
 int main(int, char**)
 {
@@ -72,13 +73,13 @@ int main(int, char**)
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImFont* def = io.Fonts->AddFontDefault();
-    ImFont* ubuntu = io.Fonts->AddFontFromFileTTF("../fonts/ubuntu/UbuntuMono-R.ttf", fontSize);
+    ImFont* ubuntu;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
+    //ImGui::StyleColorsDark();
+    ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -101,10 +102,11 @@ int main(int, char**)
     //IM_ASSERT(font != NULL);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     bool show_my_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ubuntu = io.Fonts->AddFontFromFileTTF("../fonts/ubuntu/UbuntuMono-R.ttf", fontSize);
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -116,6 +118,7 @@ int main(int, char**)
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
+        
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -133,14 +136,12 @@ int main(int, char**)
             static float f = 0.0f;
             static int counter = 0;
             
-
             ImGui::Begin("Hello, world!");
             // Create a window called "Hello, world!" and append into it.
             
             ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-            ImGui::Checkbox("My window", &show_my_window);
 
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
@@ -159,22 +160,36 @@ int main(int, char**)
         // 3. Show another simple window.
         if (show_another_window)
         {
+            
+
             ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
+            
+            ImGui::Text("1");
+            ImGui::SameLine(50, -1);
+            ImGui::Text("2");
+            ImGui::SameLine(100, -1);
+            ImGui::Text("3");
+            ImGui::Text("4");
+            ImGui::SameLine(50, -1);
+            ImGui::Text("5");
+            ImGui::SameLine(100, -1);
+            ImGui::Text("6");
+            ImGui::Text("7");
+            ImGui::SameLine(50, -1);
+            ImGui::Text("8");
+            ImGui::SameLine(100, -1);
+            ImGui::Text("9");
+            ImGui::NewLine();
+            ImGui::SameLine(50, -1);
+            ImGui::Text("0");
+            // Convert these to images
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
+
             ImGui::End();
         }
 
-        // 4. Show my window
-        if (show_my_window)
-        {
-            ImGui::Begin("My window",&show_my_window);
-            ImGui::Text("I made this window!");
-            if (ImGui::Button("Close the window."))
-                show_my_window = false;
-            ImGui::End();
-        }
+       
 
         // Rendering
         ImGui::PopFont();
