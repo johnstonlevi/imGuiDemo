@@ -25,6 +25,7 @@
 
 // Function Prototypes
 bool LoadTextureFromFile(const char*, GLuint*, int*, int*);
+int  arrangeDigits(int, int);
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -87,6 +88,26 @@ int main(int, char**)
     // Setup Dear ImGui style
     //ImGui::StyleColorsDark();
     ImGui::StyleColorsLight();
+    int digit = 0;
+    GLuint image_button[15];
+    int my_image_width = 0;
+    int my_image_height = 0;
+    bool ret[15];
+    ret[0] = LoadTextureFromFile("../images/button_0.png", &image_button[0], &my_image_width, &my_image_height);
+    ret[1] = LoadTextureFromFile("../images/button_1.png", &image_button[1], &my_image_width, &my_image_height);
+    ret[2] = LoadTextureFromFile("../images/button_2.png", &image_button[2], &my_image_width, &my_image_height);
+    ret[3] = LoadTextureFromFile("../images/button_3.png", &image_button[3], &my_image_width, &my_image_height);
+    ret[4] = LoadTextureFromFile("../images/button_4.png", &image_button[4], &my_image_width, &my_image_height);
+    ret[5] = LoadTextureFromFile("../images/button_5.png", &image_button[5], &my_image_width, &my_image_height);
+    ret[6] = LoadTextureFromFile("../images/button_6.png", &image_button[6], &my_image_width, &my_image_height);
+    ret[7] = LoadTextureFromFile("../images/button_7.png", &image_button[7], &my_image_width, &my_image_height);
+    ret[8] = LoadTextureFromFile("../images/button_8.png", &image_button[8], &my_image_width, &my_image_height);
+    ret[9] = LoadTextureFromFile("../images/button_9.png", &image_button[9], &my_image_width, &my_image_height);
+    ret[10] = LoadTextureFromFile("../images/button_multiply.png", &image_button[10], &my_image_width, &my_image_height);
+    ret[11] = LoadTextureFromFile("../images/button_minus.png", &image_button[11], &my_image_width, &my_image_height);
+    ret[12] = LoadTextureFromFile("../images/button_divide.png", &image_button[12], &my_image_width, &my_image_height);
+    ret[13] = LoadTextureFromFile("../images/button_plus.png", &image_button[13], &my_image_width, &my_image_height);
+    ret[14] = LoadTextureFromFile("../images/button_equals.png", &image_button[14], &my_image_width, &my_image_height);
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -110,7 +131,7 @@ int main(int, char**)
 
     // Our state
     bool show_demo_window = false;
-    bool show_another_window = false;
+    bool show_another_window = true;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     ubuntu = io.Fonts->AddFontFromFileTTF("../fonts/ubuntu/UbuntuMono-R.ttf", fontSize);
 
@@ -170,79 +191,97 @@ int main(int, char**)
 
             ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             
-            
-            //ImGui::Image()
-            // Convert these to images
             glfwInit();
 
-            GLuint image_button[15];
+            
+            
+            
+            
+            
+            //display results
+            ImGui::Text("%d", digit);
+            
 
-            int my_image_width = 0;
-            int my_image_height = 0;
-            bool ret[15];
             
-            
-            ret[1] = LoadTextureFromFile("../images/button_1.png", &image_button[1], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[1], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[1]);
-            ImGui::SameLine(200, -1);
-            ret[2] = LoadTextureFromFile("../images/button_2.png", &image_button[2], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[2], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[2]);
-            ImGui::SameLine(400, -1);
-            ret[3] = LoadTextureFromFile("../images/button_3.png", &image_button[3], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[3], ImVec2(my_image_width, my_image_height));
-            ImGui::SameLine(600, -1);
-            ret[10] = LoadTextureFromFile("../images/button_multiply.png", &image_button[10], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[10], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[10]);
-            ret[4] = LoadTextureFromFile("../images/button_4.png", &image_button[4], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[4], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[4]);
-            ImGui::SameLine(200, -1);
-            ret[5] = LoadTextureFromFile("../images/button_5.png", &image_button[5], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[5], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[5]);
-            ImGui::SameLine(400, -1);
-            ret[6] = LoadTextureFromFile("../images/button_6.png", &image_button[6], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[6], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[6]);
-            ImGui::SameLine(600, -1);
-            ret[11] = LoadTextureFromFile("../images/button_minus.png", &image_button[11], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[11], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[11]);
-            ret[7] = LoadTextureFromFile("../images/button_7.png", &image_button[7], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[7], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[7]);
-            ImGui::SameLine(200, -1);
-            ret[8] = LoadTextureFromFile("../images/button_8.png", &image_button[8], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[8], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[8]);
-            ImGui::SameLine(400, -1);
-            ret[9] = LoadTextureFromFile("../images/button_9.png", &image_button[9], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[9], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[9]);
-            ImGui::SameLine(600, -1);
-            ret[13] = LoadTextureFromFile("../images/button_plus.png", &image_button[13], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[13], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[13]);
-            ret[12] = LoadTextureFromFile("../images/button_divide.png", &image_button[12], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[12], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[12]);
-            ImGui::SameLine(200, -1);
-            ret[0] = LoadTextureFromFile("../images/button_0.png", &image_button[0], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[0], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[0]);
-            ImGui::SameLine(600, -1);
-            ret[14] = LoadTextureFromFile("../images/button_equals.png", &image_button[14], &my_image_width, &my_image_height);
-            ImGui::Image((void*)(intptr_t)image_button[14], ImVec2(my_image_width, my_image_height));
-            IM_ASSERT(ret[14]);
-            
-            
+            if (ImGui::ImageButton("button1", (void*)(intptr_t)image_button[1], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 1);
+            }
+            ImGui::SameLine(216, 0);
+            if (ImGui::ImageButton("button2", (void*)(intptr_t)image_button[2], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 2);
+            }
+            ImGui::SameLine(424, 0);
+            if (ImGui::ImageButton("button3", (void*)(intptr_t)image_button[3], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 3);
+            }
+            ImGui::SameLine(632, 0);
+            if (ImGui::ImageButton("multiply_button", (void*)(intptr_t)image_button[10], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                
+            }
+            if (ImGui::ImageButton("button4", (void*)(intptr_t)image_button[4], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 4);
+            }
+            ImGui::SameLine(216, 0);
+            if (ImGui::ImageButton("button5", (void*)(intptr_t)image_button[5], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 5);
+            }
+            ImGui::SameLine(424, 0);
+            if (ImGui::ImageButton("button6", (void*)(intptr_t)image_button[6], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 6);
+            }
+            ImGui::SameLine(632, 0);
+            if (ImGui::ImageButton("minus_button", (void*)(intptr_t)image_button[11], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                
+            }
+            if (ImGui::ImageButton("button7", (void*)(intptr_t)image_button[7], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 7);
+            }
+            ImGui::SameLine(216, 0);
+            if (ImGui::ImageButton("button8", (void*)(intptr_t)image_button[8], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 8);
+            }
+            ImGui::SameLine(424, 0);
+            if (ImGui::ImageButton("button9", (void*)(intptr_t)image_button[9], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 9);
+            }
+            ImGui::SameLine(632, 0);
+            if (ImGui::ImageButton("plus_button", (void*)(intptr_t)image_button[13], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                
+            }
+            if (ImGui::ImageButton("divide_button", (void*)(intptr_t)image_button[12], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                
+            }
+            ImGui::SameLine(216, 0);
+            if (ImGui::ImageButton("button0", (void*)(intptr_t)image_button[0], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = arrangeDigits(digit, 0);
+            }
+            ImGui::SameLine(632, 0);
+            if (ImGui::ImageButton("equals_button", (void*)(intptr_t)image_button[14], ImVec2((float)200, (float)200), ImVec2(0.0f, 0.0f), ImVec2(1.0f, 1.0f), ImVec4(0.0f, 0.0f, 0.0f, 0.0f), ImVec4(0.0f, 0.0f, 0.0f, 1.0f)))
+            {
+                digit = 0;
+            }
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::Text("%d", digit);
+            ImGui::NewLine();
+            ImGui::NewLine();
 
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
-
             ImGui::End();
         }
 
@@ -260,6 +299,7 @@ int main(int, char**)
 
         
         glfwSwapBuffers(window);
+        
     }
 
     // Cleanup
@@ -271,6 +311,17 @@ int main(int, char**)
     glfwTerminate();
 
     return 0;
+}
+
+// Arrange the digits for my calculator program
+int arrangeDigits (int currentNum, int numIn)
+{
+    if (currentNum < 100000000)
+    {
+        currentNum *= 10;
+        currentNum += numIn;
+    }
+    return currentNum;
 }
 
 // Simple helper function to load an image into a OpenGL texture with common settings
